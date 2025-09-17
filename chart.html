@@ -2,27 +2,32 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Lightweight Chart</title>
-  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <title>TradingView Chart</title>
 </head>
 <body>
-  <div id="chart" style="width:600px; height:400px;"></div>
-  <script>
-    const chart = LightweightCharts.createChart(document.getElementById('chart'), {
-      width: 600,
-      height: 400
-    });
-
-    const lineSeries = chart.addLineSeries();
-
-    // Use date strings instead of UNIX timestamps
-    lineSeries.setData([
-      { time: '2019-04-11', value: 80.01 },
-      { time: '2019-04-12', value: 96.63 },
-      { time: '2019-04-13', value: 76.64 },
-      { time: '2019-04-14', value: 81.89 },
-      { time: '2019-04-15', value: 74.43 }
-    ]);
-  </script>
+  <!-- TradingView Widget BEGIN -->
+  <div class="tradingview-widget-container">
+    <div id="tradingview_chart"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+      new TradingView.widget({
+        "width": 600,
+        "height": 400,
+        "symbol": "NASDAQ:AAPL",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "withdateranges": true,
+        "hide_side_toolbar": false,
+        "allow_symbol_change": true,
+        "container_id": "tradingview_chart"
+      });
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
 </body>
 </html>
