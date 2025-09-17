@@ -2,61 +2,51 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Lightweight Chart with Fixed Price Line</title>
-  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-  <style>
-    #chart {
-      width: 600px;
-      height: 400px;
-    }
-  </style>
+  <title>ApexCharts Candlestick with Price Line</title>
+  <!-- ApexCharts library -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <body>
-  <h1>Chart with Horizontal Price Line at $240</h1>
-  <div id="chart"></div>
+  <h1>Chart with Horizontal Line at $240</h1>
+  <div id="chart" style="width: 600px; height: 400px;"></div>
 
   <script>
-    // Create chart
-    const chart = LightweightCharts.createChart(document.getElementById('chart'), {
-      width: 600,
-      height: 400,
-      layout: {
-        backgroundColor: '#ffffff',
-        textColor: '#000',
+    // Sample candlestick data
+    var options = {
+      chart: {
+        type: 'candlestick',
+        height: 400,
+        toolbar: { show: true }
       },
-      grid: {
-        vertLines: { color: '#eee' },
-        horzLines: { color: '#eee' },
+      series: [{
+        data: [
+          { x: new Date('2025-09-12'), y: [235, 245, 230, 240] },
+          { x: new Date('2025-09-13'), y: [240, 250, 238, 245] },
+          { x: new Date('2025-09-14'), y: [245, 248, 240, 242] },
+          { x: new Date('2025-09-15'), y: [242, 246, 239, 244] },
+        ]
+      }],
+      xaxis: { type: 'datetime' },
+      yaxis: {
+        min: 230,
+        max: 250,
+        labels: { formatter: function(val) { return "$" + val; } },
       },
-      priceScale: {
-        borderColor: '#ccc',
-      },
-      timeScale: {
-        borderColor: '#ccc',
-      },
-    });
+      annotations: {
+        yaxis: [{
+          y: 240,                     // price level
+          borderColor: 'green',
+          label: {
+            borderColor: 'green',
+            style: { color: '#fff', background: 'green' },
+            text: '$240'
+          }
+        }]
+      }
+    };
 
-    // Add a candlestick series
-    const candlestickSeries = chart.addCandlestickSeries();
-
-    // Sample data
-    candlestickSeries.setData([
-      { time: '2025-09-12', open: 235, high: 245, low: 230, close: 240 },
-      { time: '2025-09-13', open: 240, high: 250, low: 238, close: 245 },
-      { time: '2025-09-14', open: 245, high: 248, low: 240, close: 242 },
-      { time: '2025-09-15', open: 242, high: 246, low: 239, close: 244 },
-    ]);
-
-    // Draw horizontal green line at $240
-    const linePrice = 240;
-    candlestickSeries.createPriceLine({
-      price: linePrice,
-      color: 'green',
-      lineWidth: 2,
-      lineStyle: LightweightCharts.LineStyle.Solid,
-      axisLabelVisible: true,
-      title: '$240',
-    });
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
   </script>
 </body>
 </html>
