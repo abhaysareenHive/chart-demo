@@ -1,7 +1,7 @@
 import yfinance as yf
 import json
 
-# Fetch recent 10 days of AAPL daily data
+# Fetch last 10 days of daily AAPL data
 data = yf.download('AAPL', period='10d', interval='1d')
 data.reset_index(inplace=True)
 
@@ -18,4 +18,3 @@ for i, row in data.iterrows():
 # Save as JSON
 with open('aapl_ohlc.json', 'w') as f:
     json.dump(ohlc, f)
-
