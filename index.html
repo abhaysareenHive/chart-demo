@@ -2,51 +2,50 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>ApexCharts Candlestick with Price Line</title>
-  <!-- ApexCharts library -->
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <title>Plotly Candlestick Chart with Price Line</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-  <h1>Chart with Horizontal Line at $240</h1>
-  <div id="chart" style="width: 600px; height: 400px;"></div>
+  <h1>Plotly Candlestick Chart with $240 Line</h1>
+  <div id="chart" style="width: 700px; height: 500px;"></div>
 
   <script>
     // Sample candlestick data
-    var options = {
-      chart: {
-        type: 'candlestick',
-        height: 400,
-        toolbar: { show: true }
-      },
-      series: [{
-        data: [
-          { x: new Date('2025-09-12'), y: [235, 245, 230, 240] },
-          { x: new Date('2025-09-13'), y: [240, 250, 238, 245] },
-          { x: new Date('2025-09-14'), y: [245, 248, 240, 242] },
-          { x: new Date('2025-09-15'), y: [242, 246, 239, 244] },
-        ]
-      }],
-      xaxis: { type: 'datetime' },
-      yaxis: {
-        min: 230,
-        max: 250,
-        labels: { formatter: function(val) { return "$" + val; } },
-      },
-      annotations: {
-        yaxis: [{
-          y: 240,                     // price level
-          borderColor: 'green',
-          label: {
-            borderColor: 'green',
-            style: { color: '#fff', background: 'green' },
-            text: '$240'
-          }
-        }]
-      }
+    var trace = {
+      x: ['2025-09-12', '2025-09-13', '2025-09-14', '2025-09-15'],
+      close: [240, 245, 242, 244],
+      decreasing: {line: {color: 'red'}},
+      high: [245, 250, 248, 246],
+      increasing: {line: {color: 'green'}},
+      low: [230, 238, 240, 239],
+      open: [235, 240, 245, 242],
+      type: 'candlestick',
+      xaxis: 'x',
+      yaxis: 'y'
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+    // Horizontal line at $240
+    var layout = {
+      shapes: [
+        {
+          type: 'line',
+          x0: trace.x[0],
+          x1: trace.x[trace.x.length - 1],
+          y0: 240,
+          y1: 240,
+          line: {
+            color: 'green',
+            width: 2,
+            dash: 'dashdot'
+          }
+        }
+      ],
+      yaxis: {title: 'Price', range: [230, 250]},
+      xaxis: {title: 'Date'},
+      showlegend: false
+    };
+
+    Plotly.newPlot('chart', [trace], layout);
   </script>
 </body>
 </html>
