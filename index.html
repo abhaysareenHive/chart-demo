@@ -10,25 +10,6 @@
   <!-- Chart container for overlay -->
   <div class="chart-container" style="position: relative; width: 600px; height: 400px;">
     <div id="tradingview_chart" style="width: 100%; height: 100%;"></div>
-
-    <!-- Dummy vote bars -->
-    <div class="vote-bar" style="
-         position: absolute;
-         bottom: 50px;  /* distance from bottom */
-         left: 100px;   /* horizontal position */
-         width: 8px;
-         height: 40px;
-         background-color: green;
-         opacity: 0.6;"></div>
-
-    <div class="vote-bar" style="
-         position: absolute;
-         bottom: 80px;
-         left: 120px;
-         width: 8px;
-         height: 30px;
-         background-color: red;
-         opacity: 0.6;"></div>
   </div>
 
   <!-- TradingView Widget JS -->
@@ -49,6 +30,51 @@
       "hide_side_toolbar": false,
       "allow_symbol_change": true,
       "container_id": "tradingview_chart"
+    });
+
+    // -------------------------------
+    // Dummy vote data for micro price points
+    // -------------------------------
+    const votes = [
+      {price: 80.00, bull: 5, bear: 2},
+      {price: 80.40, bull: 3, bear: 4},
+      {price: 80.80, bull: 8, bear: 1},
+      {price: 81.20, bull: 2, bear: 6},
+      {price: 81.60, bull: 7, bear: 3},
+    ];
+
+    const chartContainer = document.querySelector('.chart-container');
+    const chartHeight = 400; // same as container height
+    const minPrice = 79;     // example min Y-axis price
+    const maxPrice = 85;     // example max Y-axis price
+    const startLeft = 50;    // starting X position for first bar
+    const xSpacing = 40;     // horizontal spacing between bars
+
+    votes.forEach((vote, index) => {
+      // Calculate Y pixel position
+      const bottomPx = ((vote.price - minPrice) / (maxPrice - minPrice)) * chartHeight;
+
+      // Bull bar
+      const bullDiv = document.createElement('div');
+      bullDiv.style.position = 'absolute';
+      bullDiv.style.bottom = `${bottomPx}px`;
+      bullDiv.style.left = `${startLeft + index * xSpacing}px`;
+      bullDiv.style.width = '8px';
+      bullDiv.style.height = `${vote.bull * 5}px`; // scale height
+      bullDiv.style.backgroundColor = 'green';
+      bullDiv.style.opacity = '0.6';
+      chartContainer.appendChild(bullDiv);
+
+      // Bear bar
+      const bearDiv = document.createElement('div');
+      bearDiv.style.position = 'absolute';
+      bearDiv.style.bottom = `${bottomPx}px`;
+      bearDiv.style.left = `${startLeft + index * xSpacing + 10}px`; // offset slightly
+      bearDiv.style.width = '8px';
+      bearDiv.style.height = `${vote.bear * 5}px`;
+      bearDiv.style.backgroundColor = 'red';
+      bearDiv.style.opacity = '0.6';
+      chartContainer.appendChild(bearDiv);
     });
   </script>
 
