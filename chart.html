@@ -14,12 +14,14 @@
     });
 
     const lineSeries = chart.addLineSeries();
+
+    // Use date strings instead of UNIX timestamps
     lineSeries.setData([
-      { time: 1554940800, value: 80.01 },
-      { time: 1555027200, value: 96.63 },
-      { time: 1555113600, value: 76.64 },
-      { time: 1555200000, value: 81.89 },
-      { time: 1555286400, value: 74.43 }
+      { time: '2019-04-11', value: 80.01 },
+      { time: '2019-04-12', value: 96.63 },
+      { time: '2019-04-13', value: 76.64 },
+      { time: '2019-04-14', value: 81.89 },
+      { time: '2019-04-15', value: 74.43 }
     ]);
   </script>
 </body>
