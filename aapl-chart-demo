@@ -1,1 +1,21 @@
+import yfinance as yf
+import json
+
+# Fetch recent 10 days of AAPL daily data
+data = yf.download('AAPL', period='10d', interval='1d')
+data.reset_index(inplace=True)
+
+ohlc = []
+for i, row in data.iterrows():
+    ohlc.append({
+        'x': row['Date'].strftime('%Y-%m-%d'),
+        'open': row['Open'],
+        'high': row['High'],
+        'low': row['Low'],
+        'close': row['Close']
+    })
+
+# Save as JSON
+with open('aapl_ohlc.json', 'w') as f:
+    json.dump(ohlc, f)
 
